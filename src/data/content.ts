@@ -6,10 +6,12 @@
 /** Destino do CTA "ACESSAR TIKTOK SHOP". Troque pelo link oficial desejado. */
 export const TIKTOK_SHOP_URL = "https://affiliate.tiktok.com/";
 
-/** Tela de abertura (exibida por 3 segundos). */
+/** Tela de abertura: 6 segundos no total, em duas cenas (Olway → TikTok). */
 export const splash = {
-  durationMs: 3000,
+  durationMs: 6000,
+  stageMs: 3000,
   lines: ["Excelência em cada fio,", "propósito em cada estampa"],
+  tiktokLines: ["Manual OLWAY", "TikTok Shop"],
 };
 
 export const sections = [
