@@ -1,11 +1,77 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Sparkles, X } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, ChevronLeft, ChevronRight, Loader2, Sparkles, X } from "lucide-react";
 import { videoCategories, videos, type VideoCategory, type VideoRef } from "../data/videos";
-import { VideoCard, VideoCover } from "./VideoCard";
+import { VideoCard } from "./VideoCard";
+import { playerUrl, useTikTokVideo } from "../lib/tiktok";
 import { ease, NextSection, Reveal, SectionHeading } from "./ui";
 
 type Filter = "Todas" | VideoCategory;
+
+function InlinePlayer({ video }: { video: VideoRef }) {
+  const state = useTikTokVideo(video);
+  const [loaded, setLoaded] = useState(false);
+  const [slow, setSlow] = useState(false);
+  const videoId = state.status === "ready" ? state.info.videoId : undefined;
+
+  useEffect(() => {
+    setLoaded(false);
+    setSlow(false);
+    if (!videoId) return;
+    const t = window.setTimeout(() => setSlow(true), 12000);
+    return () => window.clearTimeout(t);
+  }, [videoId]);
+
+  if (state.status === "loading") {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-graphite/40 text-sm text-mute">
+        <Loader2 className="h-6 w-6 animate-spin" aria-hidden />
+        Buscando vídeo no TikTok…
+      </div>
+    );
+  }
+
+  if (!videoId) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-graphite/40 p-5 text-center">
+        <AlertTriangle className="h-7 w-7 text-mute" aria-hidden />
+        <p className="font-display text-sm font-bold uppercase">Não foi possível reproduzir aqui</p>
+        <p className="text-xs leading-relaxed text-mute">
+          O TikTok não retornou este vídeo para incorporação
+          {state.status === "error" ? ` (${state.reason})` : ""}. O link precisa ser corrigido manualmente.
+        </p>
+        <a href={video.url} target="_blank" rel="noopener noreferrer" className="btn-ghost mt-1 min-h-[44px] px-4 text-xs">
+          Abrir no TikTok <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative h-full w-full bg-ink">
+      <iframe
+        key={videoId}
+        src={playerUrl(videoId)}
+        title={`Vídeo do TikTok: ${video.title}`}
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+        allowFullScreen
+        onLoad={() => setLoaded(true)}
+        className="h-full w-full border-0"
+      />
+      {!loaded && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ink text-sm text-mute">
+          <Loader2 className="h-6 w-6 animate-spin" aria-hidden />
+          Carregando player…
+          {slow && (
+            <a href={video.url} target="_blank" rel="noopener noreferrer" className="text-xs underline">
+              Demorando? Abrir no TikTok
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function VideoViewer({
   list,
@@ -41,14 +107,14 @@ function VideoViewer({
       role="dialog"
       aria-modal="true"
       aria-label={`Referência: ${video.title}`}
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-xl"
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-ink/95 p-3 backdrop-blur-xl sm:p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
       <motion.div
-        className="relative flex max-h-full w-full max-w-3xl flex-col gap-5 overflow-y-auto rounded-3xl border border-bone/10 bg-coal p-4 sm:flex-row sm:p-6"
+        className="card relative flex max-h-full w-full max-w-4xl flex-col gap-4 overflow-y-auto p-3 sm:flex-row sm:gap-6 sm:p-6"
         initial={{ y: 30, scale: 0.97 }}
         animate={{ y: 0, scale: 1 }}
         exit={{ y: 30, scale: 0.97 }}
@@ -59,8 +125,8 @@ function VideoViewer({
           type="button"
           onClick={onClose}
           autoFocus
-          aria-label="Fechar visualizador"
-          className="absolute right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-bone/15 bg-ink/70"
+          aria-label="Fechar vídeo"
+          className="absolute right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-bone/20 bg-ink/80"
         >
           <X className="h-5 w-5" />
         </button>
@@ -72,60 +138,42 @@ function VideoViewer({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
-            className="mx-auto aspect-[9/16] w-[min(100%,190px)] min-[400px]:w-[220px] shrink-0 overflow-hidden rounded-2xl border border-bone/10 sm:w-[280px]"
+            className="mx-auto aspect-[9/16] h-[min(68svh,600px)] max-w-full shrink-0 overflow-hidden rounded-2xl border border-bone/15 sm:h-[min(78vh,640px)]"
           >
-            {video.embedId ? (
-              <iframe
-                src={`https://www.tiktok.com/embed/v2/${video.embedId}`}
-                title={video.title}
-                loading="lazy"
-                allow="encrypted-media; fullscreen"
-                className="h-full w-full"
-              />
-            ) : (
-              <VideoCover video={video} large />
-            )}
+            <InlinePlayer video={video} />
           </motion.div>
         </AnimatePresence>
 
-        <div className="flex flex-1 flex-col">
-          <p className="font-display text-xs font-semibold tracking-[0.22em] text-gold">
-            REFERÊNCIA {index + 1} DE {list.length}
+        <div className="flex flex-1 flex-col sm:pt-10">
+          <p className="font-display text-xs font-semibold tracking-[0.22em] text-mute">
+            REFERÊNCIA {index + 1} DE {list.length} · {video.category.toUpperCase()}
           </p>
-          <h3 className="mt-2 pr-12 font-display text-2xl font-bold uppercase leading-tight sm:text-3xl">{video.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-mute">
-            {video.embedId
-              ? "Vídeo exibido pelo player oficial do TikTok."
-              : "Este link é encurtado e não permite incorporação direta. Ele abre no app ou no site do TikTok, em nova aba — seu progresso aqui fica salvo."}
-          </p>
-          <ul className="mt-5 space-y-2 text-sm text-bone/80">
+          <h3 className="mt-2 pr-12 font-display text-xl font-bold uppercase leading-tight sm:text-3xl">{video.title}</h3>
+          <ul className="mt-4 hidden space-y-2 text-sm text-bone/80 sm:block">
             {["Ritmo e duração dos cortes", "Enquadramento e postura", "Naturalidade da fala", "Como o produto aparece"].map((t) => (
               <li key={t} className="flex items-center gap-2">
-                <Sparkles className="h-3.5 w-3.5 text-gold" aria-hidden />
+                <Sparkles className="h-3.5 w-3.5 text-chrome" aria-hidden />
                 Observe: {t.toLowerCase()}
               </li>
             ))}
           </ul>
 
-          <a
-            href={video.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-gold mt-6 w-full"
-          >
-            Assistir referência
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
-            <span className="sr-only">(abre o TikTok em nova aba)</span>
-          </a>
-
-          <div className="mt-3 grid grid-cols-2 gap-2">
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-auto">
             <button type="button" onClick={prev} className="btn-ghost min-h-[48px] px-3">
               <ChevronLeft className="h-4 w-4" aria-hidden /> Anterior
             </button>
             <button type="button" onClick={next} className="btn-ghost min-h-[48px] px-3">
-              Próxima <ChevronRight className="h-4 w-4" aria-hidden />
+              Próximo <ChevronRight className="h-4 w-4" aria-hidden />
             </button>
           </div>
+          <a
+            href={video.canonicalUrl ?? video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-flex min-h-[40px] items-center justify-center gap-1 text-xs text-mute hover:text-bone"
+          >
+            Abrir no TikTok <ArrowUpRight className="h-3 w-3" aria-hidden />
+          </a>
         </div>
       </motion.div>
     </motion.div>
@@ -142,13 +190,14 @@ export function VideoLibrary() {
 
   return (
     <section id="referencias" aria-labelledby="referencias-title" className="relative py-20 sm:py-28">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-72 max-w-3xl rounded-full bg-gold/10 blur-[120px]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-72 max-w-3xl rounded-full bg-white/[0.05] blur-[120px]" />
       <div className="container-page relative">
         <SectionHeading id="referencias-title" index="05" label="Biblioteca de vídeos Enedino" title="ASSISTA. ANALISE. CRIE SUA VERSÃO.">
           <p>
             Essas são referências selecionadas para orientar sua produção. Observe o ritmo, os enquadramentos, a postura, a
             naturalidade e a apresentação dos produtos.
           </p>
+          <p className="mt-3 text-bone">Toque em um vídeo para assistir aqui mesmo, sem sair da página.</p>
         </SectionHeading>
 
         <Reveal className="mt-10">
@@ -166,13 +215,13 @@ export function VideoLibrary() {
                   aria-pressed={active}
                   onClick={() => setFilter(f)}
                   className={`relative inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors ${
-                    active ? "border-gold text-ink" : "border-bone/15 text-bone/80 hover:border-bone/35"
+                    active ? "border-bone text-ink" : "border-bone/15 text-bone/80 hover:border-bone/35"
                   }`}
                 >
                   {active && (
                     <motion.span
                       layoutId="filter-pill"
-                      className="absolute inset-0 rounded-full bg-gold"
+                      className="absolute inset-0 rounded-full bg-bone"
                       transition={{ type: "spring", stiffness: 400, damping: 34 }}
                     />
                   )}
@@ -197,8 +246,8 @@ export function VideoLibrary() {
         </motion.ul>
 
         <Reveal className="mt-14">
-          <p className="mx-auto max-w-3xl rounded-2xl border border-gold/30 bg-gold/[0.06] px-6 py-6 text-center font-display text-xl font-bold uppercase leading-tight text-bone sm:text-3xl">
-            Não copie. <span className="text-gold-gradient">Entenda a estratégia</span> e adapte ao seu estilo.
+          <p className="mx-auto max-w-3xl rounded-2xl border border-bone/20 bg-bone/[0.04] px-6 py-6 text-center font-display text-xl font-bold uppercase leading-tight text-bone sm:text-3xl">
+            Não copie. <span className="text-chrome-gradient">Entenda a estratégia</span> e adapte ao seu estilo.
           </p>
         </Reveal>
 

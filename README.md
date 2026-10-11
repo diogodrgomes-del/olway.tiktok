@@ -26,13 +26,26 @@ Deploy: pronto para Netlify (`netlify.toml`) ou qualquer hospedagem estática (p
 | Logo (símbolo e logotipo animados) | `src/components/brand/Logo.tsx` e `src/brand/wordmarkPath.ts` |
 | Foto do Hero | `public/brand/creator-hero.webp` / `.jpg` |
 
+### Identidade
+Preto e branco, "preto brilhante" (cards com reflexo) e destaques cromados. Tokens em `src/index.css` (`:root`).
+Abertura de 3 s com o escudo Olway e "Excelência em cada fio, propósito em cada estampa" (`src/components/Splash.tsx`, duração em `splash.durationMs`).
+
 ### Logo animada
-- **Pilar:** monta-se peça por peça (barras caem, colunas descem) e recebe um brilho periódico.
-- **Logotipo OLWAY:** contorno desenhado em dourado, depois preenchido, com faixa de luz.
-- **Cabeçalho:** o pilar se preenche de dourado conforme o progresso de leitura do treinamento.
+- **Abertura:** o escudo se monta, gira 360° e brilha.
+- **Hero, faixas e encerramento:** pilar girando em 3D continuamente.
+- **Cabeçalho:** o pilar dá uma volta a cada nova etapa e se preenche conforme o progresso de leitura.
 - Tudo respeita `prefers-reduced-motion`.
 
-### Vídeos do TikTok
-Os links fornecidos são encurtados (`tt.site`, `vt.tiktok.com`) e não permitem incorporação direta, então abrem em nova aba.
-Para usar o player oficial, abra o link, copie o ID numérico da URL final (`tiktok.com/@perfil/video/<ID>`) e preencha `embedId` no item correspondente em `src/data/videos.ts`.
-As capas são gráficas/tipográficas (identificadas como "Capa gráfica"), não thumbnails reais.
+### Vídeos do TikTok (tocam dentro do site)
+- Cada card consulta a **API oEmbed oficial** (`tiktok.com/oembed`) no navegador do visitante para obter o ID e a **miniatura real**.
+- Ao tocar, o vídeo abre no **player oficial** (`tiktok.com/player/v1/<ID>`) num visualizador dentro da página. Não usa `embed.js` (nenhum script externo repetido).
+- Estados: carregando, prévia indisponível, erro com link "Abrir no TikTok". Nenhuma miniatura é inventada.
+- Links curtos (`tt.site`, `vt.tiktok.com`) podem não ser aceitos pelo oEmbed. Para fixar a URL completa e o ID:
+  ```bash
+  npm run resolve:videos   # gera src/data/videos.resolved.json
+  npm run build:html
+  ```
+  Os que falharem aparecem listados; abra-os no navegador e cole a URL completa em `canonicalUrl` em `src/data/videos.ts`.
+
+### HTML único
+`npm run build:html` gera `olway-creator-hub.html` com tudo embutido.

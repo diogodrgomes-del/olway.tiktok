@@ -6,11 +6,17 @@
 /** Destino do CTA "ACESSAR TIKTOK SHOP". Troque pelo link oficial desejado. */
 export const TIKTOK_SHOP_URL = "https://affiliate.tiktok.com/";
 
+/** Tela de abertura (exibida por 3 segundos). */
+export const splash = {
+  durationMs: 3000,
+  lines: ["Excelência em cada fio,", "propósito em cada estampa"],
+};
+
 export const sections = [
   { id: "inicio", label: "Início", short: "00" },
   { id: "time", label: "O Time", short: "01" },
   { id: "dna", label: "DNA Olway", short: "02" },
-  { id: "pilares", label: "3 Pilares", short: "03" },
+  { id: "pilares", label: "Estratégia", short: "03" },
   { id: "ideias", label: "Ideias", short: "04" },
   { id: "referencias", label: "Referências", short: "05" },
   { id: "checklist", label: "Checklist", short: "06" },
@@ -26,7 +32,7 @@ export const hero = {
   text: "Bem-vindo ao universo de criadores Olway. Aprenda a transformar sua rotina fitness em conteúdo de valor, conectar sua audiência aos nossos produtos e gerar comissões através do TikTok Shop.",
   primaryCta: "Começar treinamento",
   secondaryCta: "Ver referências",
-  imageAlt: "Criador Olway na academia vestindo camiseta de compressão preta com o símbolo da marca no peito",
+  imageAlt: "Time de criadores Olway reunido em um salão medieval, vestindo moletons e conjuntos da marca",
 };
 
 export const welcome = {
@@ -34,6 +40,13 @@ export const welcome = {
   paragraphs: [
     "Este é o seu guia para criar conteúdos que representam a Olway, conectar produtos à sua rotina e desenvolver uma estratégia consistente de vendas no TikTok Shop.",
     "Aqui você vai entender o posicionamento da marca, os formatos recomendados, como utilizar a vitrine e quais referências seguir para criar seus próprios vídeos.",
+  ],
+  quickTitle: "Seu treinamento em 4 passos",
+  quick: [
+    { n: "1", title: "Entenda o DNA", text: "Valor acima de preço.", target: "dna" },
+    { n: "2", title: "Aplique a estratégia", text: "Constância, naturalidade e link.", target: "pilares" },
+    { n: "3", title: "Grave", text: "Use as ideias e as referências.", target: "ideias" },
+    { n: "4", title: "Confira e publique", text: "Checklist antes de postar.", target: "checklist" },
   ],
   cards: [
     {
@@ -79,47 +92,82 @@ export const dna = {
     "Demonstrar qualidade, modelagem e experiência real.",
   ],
   quote: ["PREÇO PODE CHAMAR ATENÇÃO.", "VALOR É O QUE CONSTRÓI A MARCA."],
-  note: "Promoções podem ser divulgadas — de forma elegante, sem comprometer a percepção premium do produto.",
+  promo: {
+    title: "TRATANDO DE PROMOÇÕES",
+    text: "Promoções eventuais existem e podem ser comunicadas, mas sempre de forma elegante, limpa e direta.",
+    traits: ["Elegante", "Limpa", "Direta"],
+    left: { label: "A promoção", text: "É uma facilidade do momento." },
+    right: { label: "O que vende", text: "É a qualidade superior da peça." },
+  },
 };
 
 export const pillars = {
-  title: "3 PILARES PARA TRANSFORMAR CONTEÚDO EM VENDAS.",
+  kicker: "Estratégia & execução",
+  title: "COMO REALMENTE DAR CERTO NO TIKTOK SHOP.",
+  intro:
+    "O algoritmo do TikTok Shop premia a constância, a naturalidade e a facilidade de compra. Para vender de forma consistente e gerar comissões, você precisa dominar três pilares fundamentais:",
+  rewards: ["Constância", "Naturalidade", "Facilidade de compra"],
   items: [
     {
-      n: "01",
+      n: "A",
+      icon: "rocket",
       title: "Constância e volume inteligente",
-      lead: "Não dependa de um único vídeo viral. Construa presença e aumente os pontos de contato com a sua audiência por meio de publicações regulares.",
-      listTitle: "Exemplos práticos",
+      lead: "Não dependa de um único vídeo viral. Construa presença com publicações regulares.",
+      points: [
+        {
+          title: "Frequência é a chave",
+          text: "O segredo do sucesso na plataforma não é apenas um vídeo viral isolado, mas sim a constância. Crie o hábito de postar conteúdos regularmente.",
+          list: [] as string[],
+        },
+        {
+          title: "Múltiplos pontos de contato",
+          text: "Quanto mais vídeos você tiver no ar demonstrando as peças em diferentes situações, maior será a sua autoridade e o fluxo contínuo de vendas geradas pela sua vitrine.",
+          list: [] as string[],
+        },
+      ],
+      listTitle: "Na prática",
       list: [
         "Grave diferentes looks usando a mesma peça.",
         "Mostre o produto em diferentes momentos da rotina.",
         "Teste ganchos, enquadramentos e abordagens.",
         "Crie uma rotina sustentável de postagens.",
       ],
+      dual: null as null | { direct: string; indirect: string },
       tip: null as string | null,
     },
     {
-      n: "02",
-      title: "Conteúdo natural e venda indireta",
+      n: "B",
+      icon: "clapper",
+      title: "Formatos e venda indireta (contexto orgânico)",
       lead: "O conteúdo deve parecer parte da sua rotina, não uma propaganda forçada.",
-      listTitle: "Formatos que funcionam",
-      list: [
-        "Fit check antes da academia.",
-        "Preparação do pré-treino.",
-        "Montagem da bolsa de treino.",
-        "Review sincero da peça.",
-        "Demonstração do caimento.",
-        "Look fitness para diferentes ocasiões.",
-        "Vídeos mostrando o produto em movimento.",
+      points: [
+        {
+          title: "Fuja da propaganda tradicional",
+          text: "Vídeos que soam corporativos ou excessivamente comerciais morrem no alcance. Os conteúdos que mais convertem são aqueles inseridos organicamente na sua rotina:",
+          list: [
+            "Fit checks rápidos antes de ir treinar.",
+            "A preparação do pré-treino ou a montagem da bolsa de academia.",
+            "Reviews sinceros destacando a liberdade de movimento, a absorção de suor e como a regata ou a compressão modelam o corpo.",
+          ],
+        },
       ],
-      tip: "Alterne vídeos focados diretamente no produto com vídeos em que a peça aparece de forma natural na sua rotina.",
+      listTitle: "Abordagem dupla — alterne entre os dois",
+      list: [] as string[],
+      dual: {
+        direct: "Vídeos que falam diretamente sobre as qualidades técnicas do produto.",
+        indirect: "Vídeos onde o produto aparece de forma indireta, integrado ao seu estilo de vida fitness e streetwear.",
+      },
+      tip: null as string | null,
     },
     {
-      n: "03",
+      n: "C",
+      icon: "bag",
       title: "Link do produto no TikTok Shop",
       lead: "Toda publicação elegível com produtos Olway deve conter o produto correspondente vinculado pela ferramenta nativa do TikTok Shop.",
+      points: [] as { title: string; text: string; list: string[] }[],
       listTitle: "Jornada de compra",
       list: [] as string[],
+      dual: null as null | { direct: string; indirect: string },
       tip: "As comissões seguem as regras de atribuição, elegibilidade, aprovação e pagamento da própria plataforma. Não há valor garantido nem saldo disponível para saque de forma instantânea.",
     },
   ],

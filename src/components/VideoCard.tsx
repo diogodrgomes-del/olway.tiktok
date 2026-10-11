@@ -1,40 +1,80 @@
-import { motion } from "framer-motion";
-import { ArrowUpRight, Play } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { AlertTriangle, ArrowUpRight, Loader2, Play } from "lucide-react";
 import type { VideoRef } from "../data/videos";
-import { OlwayPillar } from "./brand/Logo";
+import { useTikTokVideo, type TikTokState } from "../lib/tiktok";
 
-/** Capa gráfica tipográfica (não é thumbnail real do vídeo). */
-export function VideoCover({ video, large = false }: { video: VideoRef; large?: boolean }) {
+/** Área 9:16 da prévia: miniatura real, carregando ou indisponível. Nunca uma capa inventada. */
+export function VideoPreview({ video, state }: { video: VideoRef; state: TikTokState }) {
   const num = String(video.number).padStart(2, "0");
+  const thumb = state.status === "ready" ? state.info.thumbnail : undefined;
+  const playable = state.status === "ready" && !!state.info.videoId;
+
   return (
-    <div className="relative h-full w-full overflow-hidden bg-gradient-to-b from-graphite via-coal to-ink">
-      <div aria-hidden className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/20 blur-3xl" />
-      <OlwayPillar className="absolute -bottom-6 -left-8 w-[85%] opacity-[0.07]" title="" />
-      <div className="absolute inset-0 flex flex-col justify-between p-3 sm:p-4">
-        <span className="self-start rounded-full border border-gold/40 bg-ink/60 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-gold-soft sm:text-[10px]">
-          {video.category}
-        </span>
-        <span
-          className={`font-display font-bold leading-none text-gold-gradient ${large ? "text-[8rem]" : "text-5xl sm:text-6xl"}`}
-          aria-hidden
-        >
-          {num}
-        </span>
-        <span className="pr-12 text-[9px] uppercase leading-tight tracking-[0.14em] text-bone/40 sm:text-[10px]">Capa gráfica</span>
-      </div>
-      <span
-        aria-hidden
-        className="absolute bottom-3 right-3 inline-flex h-10 w-10 items-center justify-center rounded-full border border-bone/25 bg-ink/50 text-bone backdrop-blur transition-colors group-hover:border-gold group-hover:bg-gold group-hover:text-ink sm:h-12 sm:w-12"
-      >
-        <Play className="ml-0.5 h-5 w-5" />
+    <div className="relative h-full w-full overflow-hidden bg-coal">
+      {state.status === "loading" && (
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-graphite to-coal">
+          <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[11px] uppercase tracking-[0.14em] text-mute">
+            <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+            Carregando prévia
+          </span>
+        </div>
+      )}
+
+      {thumb && (
+        <img
+          src={thumb}
+          alt={`Miniatura do vídeo: ${video.title}`}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 h-full w-full object-cover grayscale transition-[filter,transform] duration-500 group-hover:scale-[1.04] group-hover:grayscale-0"
+        />
+      )}
+
+      {(state.status === "error" || (state.status === "ready" && !thumb)) && (
+        <div className="gloss absolute inset-0 flex flex-col items-center justify-center gap-2 border border-dashed border-bone/15 bg-graphite/40 p-3 text-center">
+          <AlertTriangle className="h-5 w-5 text-mute" aria-hidden />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-bone/80">Prévia indisponível</span>
+          <span className="text-[10px] leading-snug text-mute">
+            {playable ? "O vídeo pode ser assistido aqui." : "Este link precisa de ajuste. Abra no TikTok."}
+          </span>
+        </div>
+      )}
+
+      {/* camadas de leitura */}
+      <div aria-hidden className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-ink/80 to-transparent" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/90 to-transparent" />
+
+      <span className="absolute left-2.5 top-2.5 rounded-full border border-bone/30 bg-ink/70 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-bone backdrop-blur sm:text-[10px]">
+        {video.category}
       </span>
+      <span className="absolute right-2.5 top-2.5 font-display text-xs font-bold text-bone/80">#{num}</span>
+
+      {state.status === "ready" && state.info.author && (
+        <span className="absolute bottom-3 left-3 right-14 truncate text-[11px] font-medium text-bone/85">@{state.info.author}</span>
+      )}
+
+      {playable && (
+        <span
+          aria-hidden
+          className="absolute bottom-2.5 right-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-bone text-ink shadow-[0_0_25px_rgba(255,255,255,0.35)] transition-transform group-hover:scale-110 sm:h-11 sm:w-11"
+        >
+          <Play className="ml-0.5 h-5 w-5 fill-current" />
+        </span>
+      )}
     </div>
   );
 }
 
 export function VideoCard({ video, onOpen }: { video: VideoRef; onOpen: () => void }) {
+  const ref = useRef<HTMLLIElement>(null);
+  // só consulta o TikTok quando o card se aproxima da tela
+  const inView = useInView(ref, { once: true, margin: "300px 0px" });
+  const state = useTikTokVideo(video, inView);
+
   return (
     <motion.li
+      ref={ref}
       layout
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -45,23 +85,31 @@ export function VideoCard({ video, onOpen }: { video: VideoRef; onOpen: () => vo
       <button
         type="button"
         onClick={onOpen}
-        aria-label={`Abrir visualizador: ${video.title}`}
-        className="relative aspect-[9/16] w-full overflow-hidden rounded-2xl border border-bone/10 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-gold/50"
+        aria-label={`Assistir aqui: ${video.title}`}
+        className="relative aspect-[9/16] w-full overflow-hidden rounded-2xl border border-bone/10 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-bone/50 hover:shadow-[0_20px_50px_-20px_rgba(255,255,255,0.25)]"
       >
-        <VideoCover video={video} />
+        <VideoPreview video={video} state={state} />
       </button>
       <h3 className="mt-3 line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold uppercase leading-tight sm:text-[15px]">
         {video.title}
       </h3>
+      <button
+        type="button"
+        onClick={onOpen}
+        className="mt-2 inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-bone px-2 text-[11px] font-bold uppercase tracking-[0.08em] text-ink transition-transform active:scale-95 sm:text-xs"
+      >
+        <Play className="h-3.5 w-3.5 fill-current" aria-hidden />
+        Assistir aqui
+      </button>
       <a
-        href={video.url}
+        href={video.canonicalUrl ?? video.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-bone/[0.06] px-2 text-[10.5px] font-bold uppercase tracking-[0.04em] min-[400px]:text-[11px] sm:tracking-[0.1em] text-gold-soft transition-colors hover:bg-gold hover:text-ink sm:text-xs"
+        className="mt-1 inline-flex min-h-[36px] items-center justify-center gap-1 text-[11px] font-medium text-mute transition-colors hover:text-bone"
       >
-        Assistir referência
-        <ArrowUpRight className="hidden h-3.5 w-3.5 min-[400px]:block" aria-hidden />
-        <span className="sr-only">(abre o TikTok em nova aba)</span>
+        Abrir no TikTok
+        <ArrowUpRight className="h-3 w-3" aria-hidden />
+        <span className="sr-only">(nova aba)</span>
       </a>
     </motion.li>
   );

@@ -79,7 +79,7 @@ export function SectionHeading({
   return (
     <header className="max-w-3xl">
       <Reveal>
-        <span className={`eyebrow ${tone === "light" ? "text-gold-deep" : ""}`}>
+        <span className={`eyebrow ${tone === "light" ? "text-chrome-deep" : ""}`}>
           <span className="h-px w-8 bg-current" aria-hidden />
           {index} — {label}
         </span>
@@ -113,11 +113,11 @@ export function NextSection({ current, tone = "dark" }: { current: SectionId; to
         whileTap={{ scale: 0.96 }}
         className={`group inline-flex min-h-[48px] items-center gap-3 rounded-full border px-5 py-2 text-sm font-medium transition-colors ${
           tone === "light"
-            ? "border-ink/15 text-ink/70 hover:border-gold-deep hover:text-ink"
-            : "border-bone/15 text-mute hover:border-gold/60 hover:text-bone"
+            ? "border-ink/15 text-ink/70 hover:border-chrome-deep hover:text-ink"
+            : "border-bone/15 text-mute hover:border-chrome/60 hover:text-bone"
         }`}
       >
-        <span className="font-display text-xs tracking-[0.2em] text-gold">{next.short}</span>
+        <span className="font-display text-xs tracking-[0.2em] text-chrome">{next.short}</span>
         Próxima etapa: <strong className="font-semibold">{next.label}</strong>
         <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" aria-hidden />
       </motion.button>

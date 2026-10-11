@@ -42,7 +42,7 @@ export function Header() {
     <>
       <a
         href="#time"
-        className="sr-only z-[60] rounded-md bg-gold px-4 py-2 text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-[60] rounded-md bg-chrome px-4 py-2 text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Pular para o conteúdo
       </a>
@@ -60,7 +60,8 @@ export function Header() {
             aria-label="Olway Creator Hub — voltar ao início"
             title={`Treinamento ${pct}% percorrido`}
           >
-            <OlwayLockup progress={progress} />
+            {/* o pilar dá uma volta a cada nova etapa */}
+            <OlwayLockup progress={progress} spinKey={active} />
           </button>
 
           <nav aria-label="Etapas do treinamento" className="hidden lg:block">
@@ -83,7 +84,7 @@ export function Header() {
                       {isActive && (
                         <motion.span
                           layoutId="nav-pill"
-                          className="absolute inset-0 rounded-lg bg-bone/[0.07] ring-1 ring-gold/30"
+                          className="absolute inset-0 rounded-lg bg-bone/[0.07] ring-1 ring-chrome/30"
                           transition={{ type: "spring", stiffness: 380, damping: 32 }}
                         />
                       )}
@@ -99,14 +100,14 @@ export function Header() {
             <button
               type="button"
               onClick={() => go("referencias")}
-              className="hidden items-center gap-2 rounded-lg border border-gold/40 px-3 py-2 text-[13px] font-semibold text-gold-soft transition-colors hover:bg-gold/10 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-lg border border-chrome/40 px-3 py-2 text-[13px] font-semibold text-chrome-soft transition-colors hover:bg-chrome/10 sm:inline-flex"
             >
               <PlayCircle className="h-4 w-4" aria-hidden />
               Referências
             </button>
 
             <span className="font-display text-[11px] tracking-[0.18em] text-mute lg:hidden" aria-hidden>
-              <span className="text-gold">{current.short}</span> {current.label.toUpperCase()}
+              <span className="text-chrome">{current.short}</span> {current.label.toUpperCase()}
             </span>
 
             <button
@@ -128,7 +129,7 @@ export function Header() {
             className="h-full origin-left"
             style={{
               scaleX: progress,
-              background: "linear-gradient(90deg, rgb(var(--c-gold-deep)), rgb(var(--c-gold-soft)), rgb(var(--c-gold)))",
+              background: "linear-gradient(90deg, rgb(var(--c-chrome-deep)), #fff, rgb(var(--c-chrome-deep)), #fff)",
             }}
           />
         </div>
@@ -148,7 +149,7 @@ export function Header() {
           >
             <div className="container-page flex h-[var(--header-h)] items-center justify-between">
               <span className="font-display text-xs tracking-[0.22em] text-mute">
-                PROGRESSO <span className="text-gold">{pct}%</span>
+                PROGRESSO <span className="text-chrome">{pct}%</span>
               </span>
               <button
                 type="button"
@@ -179,9 +180,9 @@ export function Header() {
                           isActive ? "bg-bone/[0.06] text-bone" : "text-bone/55 active:bg-bone/[0.04]"
                         }`}
                       >
-                        <span className={`w-8 text-sm ${isActive ? "text-gold" : "text-mute"}`}>{s.short}</span>
+                        <span className={`w-8 text-sm ${isActive ? "text-chrome" : "text-mute"}`}>{s.short}</span>
                         {s.label}
-                        {isActive && <span className="ml-auto h-2 w-2 rounded-full bg-gold" aria-hidden />}
+                        {isActive && <span className="ml-auto h-2 w-2 rounded-full bg-chrome" aria-hidden />}
                       </button>
                     </motion.li>
                   );

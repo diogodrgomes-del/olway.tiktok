@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Info, X } from "lucide-react";
+import { Check, Percent, Sparkles, X } from "lucide-react";
 import { dna } from "../data/content";
 import { OlwayPillar } from "./brand/Logo";
 import { ease, NextSection, Reveal, SectionHeading } from "./ui";
@@ -18,12 +18,12 @@ function CompareList({ side, active, onSelect }: { side: Side; active: boolean; 
       animate={{ opacity: active ? 1 : 0.45, scale: active ? 1 : 0.985 }}
       transition={{ duration: 0.35, ease }}
       className={`h-full cursor-pointer rounded-2xl border p-6 sm:p-7 ${
-        isPrefer ? "border-gold/50 bg-ink text-bone" : "border-ink/10 bg-white text-ink"
+        isPrefer ? "border-white bg-bone text-ink shadow-[0_20px_60px_-25px_rgba(255,255,255,0.35)]" : "card text-bone"
       }`}
     >
       <p
         className={`inline-flex items-center gap-2 rounded-full px-3 py-1 font-display text-xs font-bold tracking-[0.2em] ${
-          isPrefer ? "bg-gold text-ink" : "bg-danger/10 text-danger"
+          isPrefer ? "bg-ink text-bone" : "bg-bone/10 text-mute"
         }`}
       >
         <Icon className="h-3.5 w-3.5" aria-hidden />
@@ -40,12 +40,12 @@ function CompareList({ side, active, onSelect }: { side: Side; active: boolean; 
           >
             <span
               className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
-                isPrefer ? "bg-gold/15 text-gold" : "bg-danger/10 text-danger"
+                isPrefer ? "bg-ink text-bone" : "bg-bone/10 text-mute"
               }`}
             >
               <Icon className="h-3 w-3" aria-hidden />
             </span>
-            <span className={!isPrefer ? "text-ink/75 line-through decoration-danger/40" : ""}>{t}</span>
+            <span className={!isPrefer ? "text-mute line-through decoration-bone/30" : "font-medium"}>{t}</span>
           </motion.li>
         ))}
       </ul>
@@ -57,25 +57,25 @@ export function BrandPositioning() {
   const [side, setSide] = useState<Side>("prefer");
 
   return (
-    <section id="dna" aria-labelledby="dna-title" className="relative overflow-hidden bg-bone py-20 text-ink sm:py-28">
-      <div aria-hidden className="pointer-events-none absolute -right-24 top-16 w-[360px] opacity-[0.06] sm:w-[520px]">
-        <OlwayPillar className="w-full [&_g]:fill-ink" />
+    <section id="dna" aria-labelledby="dna-title" className="relative overflow-hidden border-t border-bone/5 py-20 sm:py-28">
+      <div aria-hidden className="pointer-events-none absolute -right-24 top-16 w-[360px] opacity-[0.04] sm:w-[520px]">
+        <OlwayPillar className="w-full" title="" />
       </div>
 
       <div className="container-page relative">
-        <SectionHeading id="dna-title" tone="light" index="02" label="DNA Olway · Valor acima de preço" title={dna.title}>
+        <SectionHeading id="dna-title" index="02" label="DNA Olway · Valor acima de preço" title={dna.title}>
           <p>{dna.text}</p>
         </SectionHeading>
 
         {/* Diferenciais */}
-        <ul className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 lg:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-bone/10 bg-bone/10 lg:grid-cols-4">
           {dna.differentials.map((d, i) => (
-            <Reveal as="li" key={d.title} delay={i * 0.06} className="group bg-bone p-5 transition-colors hover:bg-white sm:p-7">
-              <span className="font-display text-4xl font-bold text-gold-deep/30 transition-colors group-hover:text-gold-deep sm:text-5xl">
+            <Reveal as="li" key={d.title} delay={i * 0.06} className="gloss group bg-coal p-5 transition-colors hover:bg-graphite sm:p-7">
+              <span className="font-display text-4xl font-bold text-bone/15 transition-colors group-hover:text-bone sm:text-5xl">
                 {d.n}
               </span>
               <h3 className="mt-4 font-display text-lg font-bold uppercase sm:text-xl">{d.title}</h3>
-              <p className="mt-1.5 text-sm leading-snug text-ink/65 sm:text-[15px]">{d.text}</p>
+              <p className="mt-1.5 text-sm leading-snug text-mute sm:text-[15px]">{d.text}</p>
             </Reveal>
           ))}
         </ul>
@@ -89,7 +89,7 @@ export function BrandPositioning() {
             <div
               role="tablist"
               aria-label="Comparar abordagens"
-              className="relative mt-5 inline-flex rounded-full border border-ink/10 bg-white p-1"
+              className="relative mt-5 inline-flex rounded-full border border-bone/15 bg-coal p-1"
             >
               {(["avoid", "prefer"] as Side[]).map((s) => (
                 <button
@@ -100,13 +100,13 @@ export function BrandPositioning() {
                   aria-controls={`painel-${s}`}
                   onClick={() => setSide(s)}
                   className={`relative min-h-[44px] rounded-full px-6 font-display text-sm font-bold tracking-[0.14em] transition-colors ${
-                    side === s ? (s === "prefer" ? "text-ink" : "text-bone") : "text-ink/55"
+                    side === s ? (s === "prefer" ? "text-ink" : "text-bone") : "text-mute"
                   }`}
                 >
                   {side === s && (
                     <motion.span
                       layoutId="compare-pill"
-                      className={`absolute inset-0 rounded-full ${s === "prefer" ? "bg-gold" : "bg-danger"}`}
+                      className={`absolute inset-0 rounded-full ${s === "prefer" ? "bg-bone" : "bg-graphite ring-1 ring-bone/20"}`}
                       transition={{ type: "spring", stiffness: 400, damping: 34 }}
                     />
                   )}
@@ -142,23 +142,64 @@ export function BrandPositioning() {
 
         {/* Destaque */}
         <Reveal className="mt-16">
-          <figure className="relative overflow-hidden rounded-3xl bg-ink px-6 py-12 text-center sm:px-12 sm:py-16">
-            <div aria-hidden className="absolute inset-x-0 -top-24 mx-auto h-48 w-2/3 rounded-full bg-gold/25 blur-[90px]" />
-            <blockquote className="relative font-display text-2xl font-bold uppercase leading-tight text-bone sm:text-4xl lg:text-5xl">
+          <figure className="relative overflow-hidden rounded-3xl bg-bone px-6 py-12 text-center sm:px-12 sm:py-16">
+            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.9)_50%,transparent_70%)] bg-[length:250%_100%] [animation:chrome-sweep_5s_linear_infinite]" />
+            <blockquote className="relative font-display text-2xl font-bold uppercase leading-tight text-ink sm:text-4xl lg:text-5xl">
               <span className="block">{dna.quote[0]}</span>
-              <span className="text-gold-gradient block">{dna.quote[1]}</span>
+              <span className="block text-ink/55">{dna.quote[1]}</span>
             </blockquote>
           </figure>
         </Reveal>
 
-        <Reveal className="mt-5">
-          <p className="flex items-start gap-3 rounded-xl border border-ink/10 bg-white p-4 text-sm text-ink/70 sm:text-[15px]">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" aria-hidden />
-            {dna.note}
-          </p>
+        {/* Tratando de promoções */}
+        <Reveal className="mt-6">
+          <div className="card relative grid overflow-hidden md:grid-cols-[1.4fr_1fr]">
+            <div className="p-6 sm:p-9">
+              <p className="eyebrow">
+                <Percent className="h-3.5 w-3.5" aria-hidden /> Ponto de atenção
+              </p>
+              <h3 className="mt-3 font-display text-2xl font-bold uppercase sm:text-3xl">{dna.promo.title}</h3>
+              <p className="mt-3 max-w-xl text-base leading-relaxed text-bone/80 sm:text-lg">{dna.promo.text}</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {dna.promo.traits.map((t, i) => (
+                  <motion.li
+                    key={t}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.15 + i * 0.1, type: "spring", stiffness: 300, damping: 18 }}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-bone/20 px-4 py-2 font-display text-sm font-bold uppercase tracking-[0.12em]"
+                  >
+                    <Check className="h-3.5 w-3.5" aria-hidden /> {t}
+                  </motion.li>
+                ))}
+              </ul>
+              <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-bone/10 bg-ink/60 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-mute">{dna.promo.left.label}</p>
+                  <p className="mt-1 text-bone/80">{dna.promo.left.text}</p>
+                </div>
+                <div className="rounded-xl bg-bone p-4 text-ink">
+                  <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-ink/60">
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden /> {dna.promo.right.label}
+                  </p>
+                  <p className="mt-1 font-semibold">{dna.promo.right.text}</p>
+                </div>
+              </div>
+            </div>
+            <div className="relative hidden min-h-[260px] md:block">
+              <img
+                src="/brand/packaging.webp"
+                alt="Embalagens oficiais Olway com a frase Excelência em cada fio, propósito em cada estampa"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover grayscale"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-coal via-coal/30 to-transparent" />
+            </div>
+          </div>
         </Reveal>
 
-        <NextSection current="dna" tone="light" />
+        <NextSection current="dna" />
       </div>
     </section>
   );

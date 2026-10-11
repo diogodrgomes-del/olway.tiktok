@@ -11,9 +11,9 @@ export default {
         graphite: "rgb(var(--c-graphite) / <alpha-value>)",
         bone: "rgb(var(--c-bone) / <alpha-value>)",
         mute: "rgb(var(--c-mute) / <alpha-value>)",
-        gold: "rgb(var(--c-gold) / <alpha-value>)",
-        "gold-soft": "rgb(var(--c-gold-soft) / <alpha-value>)",
-        "gold-deep": "rgb(var(--c-gold-deep) / <alpha-value>)",
+        chrome: "rgb(var(--c-chrome) / <alpha-value>)",
+        "chrome-soft": "rgb(var(--c-chrome-soft) / <alpha-value>)",
+        "chrome-deep": "rgb(var(--c-chrome-deep) / <alpha-value>)",
         danger: "rgb(var(--c-danger) / <alpha-value>)",
       },
       fontFamily: {

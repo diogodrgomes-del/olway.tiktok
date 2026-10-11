@@ -17,7 +17,7 @@ function Burst() {
         return (
           <motion.span
             key={i}
-            className="absolute left-1/2 top-1/2 h-1.5 w-1.5 rounded-full bg-gold"
+            className="absolute left-1/2 top-1/2 h-1.5 w-1.5 rounded-full bg-chrome"
             initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
             animate={{ x: Math.cos(angle) * 110, y: Math.sin(angle) * 110, opacity: 0, scale: 0.4 }}
             transition={{ duration: 1.1, ease: "easeOut" }}
@@ -63,7 +63,7 @@ export function InteractiveChecklist() {
                       cy="60"
                       r="52"
                       fill="none"
-                      stroke="rgb(var(--c-gold))"
+                      stroke="rgb(var(--c-chrome))"
                       strokeWidth="8"
                       strokeLinecap="round"
                       strokeDasharray={RING}
@@ -105,7 +105,7 @@ export function InteractiveChecklist() {
                     aria-label="Conclusão do checklist"
                   >
                     <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-soft"
+                      className="h-full rounded-full bg-gradient-to-r from-chrome-deep via-chrome to-chrome-soft"
                       animate={{ width: `${pct}%` }}
                       transition={{ duration: 0.6, ease }}
                     />
@@ -132,7 +132,7 @@ export function InteractiveChecklist() {
                   <Reveal as="li" key={item} delay={i * 0.04}>
                     <label
                       className={`group flex min-h-[64px] cursor-pointer items-start gap-4 rounded-2xl border p-4 transition-colors sm:p-5 ${
-                        on ? "border-gold/50 bg-gold/[0.08]" : "border-bone/10 bg-coal hover:border-bone/25"
+                        on ? "border-chrome/50 bg-chrome/[0.08]" : "border-bone/10 bg-coal hover:border-bone/25"
                       }`}
                     >
                       <input type="checkbox" className="peer sr-only" checked={on} onChange={() => toggle(i)} />
@@ -140,8 +140,8 @@ export function InteractiveChecklist() {
                         aria-hidden
                         animate={{ scale: on ? [1, 1.2, 1] : 1 }}
                         transition={{ duration: 0.3 }}
-                        className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-gold peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-ink ${
-                          on ? "border-gold bg-gold text-ink" : "border-bone/30 text-transparent"
+                        className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-chrome peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-ink ${
+                          on ? "border-chrome bg-chrome text-ink" : "border-bone/30 text-transparent"
                         }`}
                       >
                         <motion.svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={3.5}>
@@ -156,7 +156,7 @@ export function InteractiveChecklist() {
                         </motion.svg>
                       </motion.span>
                       <span className={`text-[15px] leading-snug transition-colors sm:text-base ${on ? "text-bone" : "text-bone/80"}`}>
-                        <span className="mr-2 font-display text-xs font-semibold text-gold">{String(i + 1).padStart(2, "0")}</span>
+                        <span className="mr-2 font-display text-xs font-semibold text-chrome">{String(i + 1).padStart(2, "0")}</span>
                         {item}
                       </span>
                     </label>
@@ -172,16 +172,16 @@ export function InteractiveChecklist() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.5, ease }}
-                  className="relative mt-6 overflow-hidden rounded-2xl border border-gold bg-ink p-6 sm:p-7"
+                  className="relative mt-6 overflow-hidden rounded-2xl border border-chrome bg-ink p-6 sm:p-7"
                   role="status"
                 >
-                  <div aria-hidden className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/25 blur-3xl" />
-                  <p className="relative flex items-center gap-3 font-display text-xl font-bold uppercase leading-tight text-gold-soft sm:text-2xl">
-                    <PartyPopper className="h-6 w-6 shrink-0 text-gold" aria-hidden />
+                  <div aria-hidden className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-chrome/25 blur-3xl" />
+                  <p className="relative flex items-center gap-3 font-display text-xl font-bold uppercase leading-tight text-chrome-soft sm:text-2xl">
+                    <PartyPopper className="h-6 w-6 shrink-0 text-chrome" aria-hidden />
                     {checklist.done}
                   </p>
                   <p className="relative mt-3 flex items-start gap-2 text-sm text-mute">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-chrome" aria-hidden />
                     {checklist.doneNote}
                   </p>
                 </motion.div>

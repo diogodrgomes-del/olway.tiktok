@@ -39,16 +39,16 @@ function IdeaCard({ idea, index }: { idea: Idea; index: number }) {
     <Reveal as="li" delay={(index % 3) * 0.07} className="h-full w-[86%] shrink-0 snap-center sm:w-auto">
       <motion.article
         whileHover={{ y: -4 }}
-        className="card group relative flex h-full flex-col p-6 transition-colors hover:border-gold/35 sm:p-7"
+        className="card group relative flex h-full flex-col p-6 transition-colors hover:border-chrome/35 sm:p-7"
       >
         <header className="flex items-center justify-between">
-          <span className="font-display text-xs font-semibold tracking-[0.22em] text-gold">IDEIA {idea.n}</span>
-          <span aria-hidden className="h-px flex-1 mx-4 bg-bone/10 transition-colors group-hover:bg-gold/30" />
+          <span className="font-display text-xs font-semibold tracking-[0.22em] text-chrome">IDEIA {idea.n}</span>
+          <span aria-hidden className="h-px flex-1 mx-4 bg-bone/10 transition-colors group-hover:bg-chrome/30" />
           <Quote className="h-4 w-4 text-bone/25" aria-hidden />
         </header>
         <h3 className="mt-5 font-display text-2xl font-bold uppercase">{idea.title}</h3>
 
-        <div className="mt-4 rounded-xl border-l-2 border-gold bg-ink/70 px-4 py-3">
+        <div className="mt-4 rounded-xl border-l-2 border-chrome bg-ink/70 px-4 py-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-mute">Gancho</p>
           <p className="mt-1 font-display text-lg font-medium leading-snug text-bone">“{idea.hook}”</p>
         </div>
@@ -64,8 +64,8 @@ function IdeaCard({ idea, index }: { idea: Idea; index: number }) {
           whileTap={{ scale: 0.97 }}
           className={`mt-6 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border font-display text-sm font-bold uppercase tracking-[0.12em] transition-colors ${
             state === "ok"
-              ? "border-gold bg-gold text-ink"
-              : "border-bone/15 text-bone hover:border-gold/60 hover:text-gold-soft"
+              ? "border-chrome bg-chrome text-ink"
+              : "border-bone/15 text-bone hover:border-chrome/60 hover:text-chrome-soft"
           }`}
         >
           <AnimatePresence mode="wait" initial={false}>

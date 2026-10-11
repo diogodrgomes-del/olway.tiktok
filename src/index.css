@@ -8,15 +8,15 @@
    Formato: canais RGB separados por espaço (para suportar opacidade).
    ========================================================== */
 :root {
-  --c-ink: 10 10 11;        /* #0A0A0B  fundo principal */
-  --c-coal: 20 20 22;       /* #141416  fundo de cards */
-  --c-graphite: 34 35 38;   /* #222326  fundo secundário */
-  --c-bone: 244 244 242;    /* #F4F4F2  branco */
-  --c-mute: 166 164 158;    /* #A6A49E  texto de apoio */
-  --c-gold: 201 162 75;     /* #C9A24B  dourado principal */
-  --c-gold-soft: 232 205 140; /* #E8CD8C  dourado claro */
-  --c-gold-deep: 138 106 40;  /* #8A6A28  dourado escuro */
-  --c-danger: 214 96 84;    /* #D66054  "evite" */
+  --c-ink: 4 4 5;           /* #040405  preto profundo (fundo) */
+  --c-coal: 13 13 14;       /* #0D0D0E  preto dos cards */
+  --c-graphite: 26 26 28;   /* #1A1A1C  preto secundário */
+  --c-bone: 246 246 246;    /* #F6F6F6  branco */
+  --c-mute: 150 150 154;    /* #96969A  texto de apoio */
+  --c-chrome: 232 232 234;  /* #E8E8EA  destaque (branco cromado) */
+  --c-chrome-soft: 255 255 255; /* #FFFFFF  brilho */
+  --c-chrome-deep: 110 110 116; /* #6E6E74  prata escuro */
+  --c-danger: 130 130 136;  /* #828288  "evite" (cinza) */
 
   --header-h: 64px;
   color-scheme: dark;
@@ -37,10 +37,10 @@
     letter-spacing: -0.02em;
   }
   ::selection {
-    background: rgb(var(--c-gold) / 0.35);
+    background: rgb(var(--c-chrome) / 0.35);
   }
   :focus-visible {
-    outline: 2px solid rgb(var(--c-gold));
+    outline: 2px solid rgb(var(--c-chrome));
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -51,47 +51,77 @@
     @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.22em] text-gold;
+    @apply inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.22em] text-chrome;
   }
   .section-title {
     @apply font-display text-[2rem] font-bold uppercase leading-[0.98] sm:text-5xl lg:text-6xl;
   }
-  .text-gold-gradient {
-    background: linear-gradient(100deg, rgb(var(--c-gold-deep)) 0%, rgb(var(--c-gold-soft)) 45%, rgb(var(--c-gold)) 70%, rgb(var(--c-gold-deep)) 100%);
-    background-size: 200% 100%;
+  /* texto cromado com brilho que percorre as letras */
+  .text-chrome-gradient {
+    background: linear-gradient(100deg, rgb(var(--c-chrome-deep)) 0%, #fff 20%, rgb(var(--c-chrome-deep)) 40%, #d9d9dc 60%, #fff 80%, rgb(var(--c-chrome-deep)) 100%);
+    background-size: 250% 100%;
+    animation: chrome-sweep 6s linear infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
+  /* preto brilhante: reflexo no topo + linha de luz interna */
   .card {
     @apply rounded-2xl border border-bone/10 bg-coal;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.07) 0%, rgb(255 255 255 / 0.015) 38%, transparent 60%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.09), 0 20px 50px -30px rgb(0 0 0 / 0.9);
+  }
+  .gloss {
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.06) 0%, transparent 45%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
   }
   .btn {
     @apply relative inline-flex min-h-[52px] items-center justify-center gap-2 overflow-hidden rounded-xl px-6 font-display text-sm font-bold uppercase tracking-[0.12em] transition-colors duration-200;
   }
-  .btn-gold {
+  .btn-chrome {
     @apply btn text-ink;
-    background: linear-gradient(120deg, rgb(var(--c-gold-soft)), rgb(var(--c-gold)) 55%, rgb(var(--c-gold-deep)));
+    background: linear-gradient(180deg, #ffffff 0%, #e4e4e6 48%, #bdbdc2 52%, #f2f2f3 100%);
+    box-shadow: inset 0 1px 0 #fff, 0 10px 30px -10px rgb(255 255 255 / 0.25);
   }
   .btn-ghost {
-    @apply btn border border-bone/20 text-bone hover:border-gold/70 hover:text-gold-soft;
+    @apply btn border border-bone/20 text-bone hover:border-chrome/70 hover:text-chrome-soft;
   }
   .grain {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
   }
 }
 
-/* Brilho que atravessa os botões dourados */
-.btn-gold::after {
+@keyframes chrome-sweep {
+  from { background-position: 100% 0; }
+  to { background-position: -150% 0; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes spin-y {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+.spin-y {
+  animation: spin-y 7s linear infinite;
+  transform-style: preserve-3d;
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+/* Brilho que atravessa os botões principais */
+.btn-chrome::after {
   content: "";
   position: absolute;
   inset: 0;
   transform: translateX(-120%) skewX(-20deg);
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.9), transparent);
   transition: transform 0.7s ease;
 }
-.btn-gold:hover::after,
-.btn-gold:focus-visible::after {
+.btn-chrome:hover::after,
+.btn-chrome:focus-visible::after {
   transform: translateX(120%) skewX(-20deg);
 }
 

@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, PlayCircle } from "lucide-react";
 import { finalCta, footer, TIKTOK_SHOP_URL } from "../data/content";
-import { OlwayPillar, OlwayWordmark } from "./brand/Logo";
+import { OlwayPillar, OlwayWordmark, SpinningPillar } from "./brand/Logo";
 import { ease, scrollToId } from "./ui";
 
 export function FinalCTA() {
   return (
     <section id="executar" aria-labelledby="executar-title" className="relative isolate overflow-hidden py-24 sm:py-36">
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/15 blur-[140px]" />
+        <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.07] blur-[140px]" />
         <div className="grain absolute inset-0 opacity-[0.07] mix-blend-overlay" />
       </div>
 
@@ -19,14 +19,14 @@ export function FinalCTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease }}
         >
-          <OlwayPillar intro shine className="h-20 w-auto drop-shadow-[0_8px_30px_rgba(201,162,75,0.4)] sm:h-24" />
+          <SpinningPillar className="h-24 w-[120px] sm:h-28 sm:w-[140px]" duration={6} />
         </motion.div>
 
         <h2 id="executar-title" className="mt-10 font-display text-[2.1rem] font-bold uppercase leading-[0.95] min-[390px]:text-[2.4rem] sm:text-6xl lg:text-7xl">
           {finalCta.headline.map((line, i) => (
             <span key={line} className="-mt-[0.12em] block overflow-hidden pb-1 pt-[0.12em]">
               <motion.span
-                className={`block ${i === 2 ? "text-gold-gradient" : ""}`}
+                className={`block ${i === 2 ? "text-chrome-gradient" : ""}`}
                 initial={{ y: "105%" }}
                 whileInView={{ y: 0 }}
                 viewport={{ once: true }}
@@ -60,7 +60,7 @@ export function FinalCTA() {
             href={TIKTOK_SHOP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold w-full sm:w-auto"
+            className="btn-chrome w-full sm:w-auto"
           >
             {finalCta.primary}
             <ArrowUpRight className="h-4 w-4" aria-hidden />
@@ -89,7 +89,7 @@ export function Footer() {
           <OlwayPillar className="h-8 w-auto" title="" />
           <div>
             <OlwayWordmark className="h-4 w-auto" />
-            <p className="mt-1 font-display text-[11px] tracking-[0.24em] text-gold">{footer.brand.replace("OLWAY — ", "")}</p>
+            <p className="mt-1 font-display text-[11px] tracking-[0.24em] text-chrome">{footer.brand.replace("OLWAY — ", "")}</p>
           </div>
         </div>
         <p className="text-sm text-mute">{footer.tagline}</p>
