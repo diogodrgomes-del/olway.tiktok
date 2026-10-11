@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, ImageOff } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { products, type Product } from "../data/products";
-import { OlwayPillar } from "./brand/Logo";
 import { NextSection, Reveal, SectionHeading } from "./ui";
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
@@ -16,21 +15,15 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         className="card group flex h-full flex-col overflow-hidden transition-colors hover:border-bone/40"
       >
         <div className="relative aspect-[4/5] overflow-hidden bg-graphite">
-          {product.image ? (
-            <img
-              src={product.image}
-              alt={`Foto do produto ${product.name}`}
-              loading="lazy"
-              className="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-[1.06] group-hover:grayscale-0"
-            />
-          ) : (
-            <div className="gloss flex h-full flex-col items-center justify-center gap-3 p-4 text-center">
-              <OlwayPillar className="w-1/2 opacity-[0.12]" title="" />
-              <span className="flex flex-col items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-mute">
-                <ImageOff className="h-3.5 w-3.5" aria-hidden /> Fotos no site oficial
-              </span>
-            </div>
-          )}
+          <img
+            src={product.image}
+            alt={product.imageAlt}
+            width={720}
+            height={880}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+          />
+          <span aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-coal to-transparent" />
           <span className="absolute left-3 top-3 font-display text-4xl font-bold leading-none text-bone drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
             #{product.rank}
           </span>
@@ -41,7 +34,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           />
         </div>
         <div className="flex flex-1 flex-col p-4 sm:p-5">
-          <h3 className="flex-1 font-display text-lg font-bold uppercase leading-tight">{product.name}</h3>
+          <h3 className="font-display text-lg font-bold uppercase leading-tight">{product.name}</h3>
+          <span className="mt-1 flex-1 break-all text-[11px] text-mute underline decoration-bone/20 underline-offset-2">
+            {product.url.replace("https://", "")}
+          </span>
           <span className="mt-4 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-bone px-3 text-xs font-bold uppercase tracking-[0.1em] text-ink">
             Ver detalhes
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
@@ -58,7 +54,7 @@ export function ProductShowcase() {
     <section id="produtos" aria-labelledby="produtos-title" className="relative border-t border-bone/5 py-20 sm:py-28">
       <div className="container-page">
         <SectionHeading id="produtos-title" index="04" label="Top 5 produtos" title="TOP 5 OLWAY PARA OS SEUS VÍDEOS.">
-          <p>Conheça as peças em destaque. Toque em cada uma para ver fotos, tamanhos e todos os detalhes no site oficial.</p>
+          <p>Conheça as peças em destaque. Toque em cada uma para ver tamanhos, preço e todos os detalhes no site oficial.</p>
         </SectionHeading>
 
         <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-mute sm:hidden" aria-hidden>

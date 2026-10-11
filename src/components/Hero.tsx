@@ -60,29 +60,10 @@ export function Hero() {
           {/* Logo animada */}
           <div className="flex items-center gap-4">
             <SpinningPillar className="h-14 w-[70px] sm:h-16 sm:w-[80px]" />
-            <div className="flex flex-col gap-2">
-              <OlwayWordmark intro shine tone="bone" delay={0.4} className="h-8 w-auto sm:h-10" />
-              <motion.span
-                initial={{ opacity: 0, letterSpacing: "0.6em" }}
-                animate={{ opacity: 1, letterSpacing: "0.38em" }}
-                transition={{ duration: 1.2, delay: 1.8, ease }}
-                className="font-display text-[11px] font-semibold uppercase text-chrome sm:text-xs"
-              >
-                {hero.tag}
-              </motion.span>
-            </div>
+            <OlwayWordmark intro shine tone="bone" delay={0.4} className="h-8 w-auto sm:h-10" />
           </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-8 text-sm font-medium text-mute sm:text-base"
-          >
-            {hero.subtitle}
-          </motion.p>
-
-          <h1 id="hero-title" className="mt-3 font-display text-[2.6rem] font-bold uppercase leading-[0.92] min-[390px]:text-[2.9rem] sm:text-7xl lg:text-[5.4rem]">
+          <h1 id="hero-title" className="mt-8 font-display text-[2.6rem] font-bold uppercase leading-[0.92] min-[390px]:text-[2.9rem] sm:text-7xl lg:text-[5.4rem]">
             {hero.headline.map((line, i) => (
               <span key={line} className="-mt-[0.12em] block overflow-hidden pb-1 pt-[0.12em]">
                 <motion.span
@@ -96,6 +77,15 @@ export function Hero() {
               </span>
             ))}
           </h1>
+
+          <motion.p
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease, delay: 1.05 }}
+            className="mt-5 border-l-2 border-bone pl-4 font-display text-lg font-bold uppercase tracking-[0.04em] text-bone sm:text-2xl"
+          >
+            {hero.slogan}
+          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}

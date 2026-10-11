@@ -36,24 +36,11 @@ Abertura de 3 s com o escudo Olway e "Excelência em cada fio, propósito em cad
 - **Cabeçalho:** o pilar dá uma volta a cada nova etapa e se preenche conforme o progresso de leitura.
 - Tudo respeita `prefers-reduced-motion`.
 
-### Vídeos do TikTok (tocam dentro do site)
-- Cada card consulta a **API oEmbed oficial** (`tiktok.com/oembed`) no navegador do visitante para obter o ID e a **miniatura real**.
-- Ao tocar, o vídeo abre no **player oficial** (`tiktok.com/player/v1/<ID>`) num visualizador dentro da página. Não usa `embed.js` (nenhum script externo repetido).
-- Estados: carregando, prévia indisponível, erro com link "Abrir no TikTok". Nenhuma miniatura é inventada.
-- Links curtos (`tt.site`, `vt.tiktok.com`) podem não ser aceitos pelo oEmbed. Para fixar a URL completa e o ID:
-  ```bash
-  npm run resolve:videos   # gera src/data/videos.resolved.json
-  npm run build:html
-  ```
-  Os que falharem aparecem listados; abra-os no navegador e cole a URL completa em `canonicalUrl` em `src/data/videos.ts`.
+### Vídeos de referência
+Cards "Vídeo 1", "Vídeo 2"… com link direto para o TikTok (nova aba). Links em `src/data/videos.ts`.
 
 ### Top 5 produtos
-Links em `src/data/products.ts`. Para baixar a foto oficial de cada produto (og:image da página da loja):
-```bash
-npm run fetch:products   # salva em public/products/ e gera src/data/products.resolved.json
-npm run build:html
-```
-Sem foto, o card mostra só o nome e o botão "Ver detalhes" — nenhuma imagem é inventada.
+Fotos oficiais em `public/products/` e links da loja em `src/data/products.ts`.
 
 ### HTML único
 `npm run build:html` gera `olway-creator-hub.html` com tudo embutido.

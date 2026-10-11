@@ -27,9 +27,8 @@ export const sections = [
 export type SectionId = (typeof sections)[number]["id"];
 
 export const hero = {
-  tag: "Manual TikTok Shop",
-  subtitle: "Manual OLWAY TikTok Shop — guia oficial do criador",
-  headline: ["SEU CONTEÚDO.", "SEU SHAPE.", "SEUS RESULTADOS."],
+  headline: ["MANUAL", "OLWAY", "TIKTOK SHOP"],
+  slogan: "Seu conteúdo. Seu shape. Seus resultados.",
   text: "Bem-vindo ao universo de criadores Olway. Aprenda a transformar sua rotina fitness em conteúdo de valor, conectar sua audiência aos nossos produtos e gerar comissões através do TikTok Shop.",
   primaryCta: "Começar treinamento",
   secondaryCta: "Ver referências",
