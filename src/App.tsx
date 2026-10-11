@@ -10,6 +10,7 @@ import { VideoLibrary } from "./components/VideoLibrary";
 import { InteractiveChecklist } from "./components/InteractiveChecklist";
 import { FinalCTA, Footer } from "./components/FinalCTA";
 import { Marquee } from "./components/Marquee";
+import { ProductShowcase } from "./components/ProductShowcase";
 import { Splash } from "./components/Splash";
 import { splash } from "./data/content";
 
@@ -42,6 +43,7 @@ export default function App() {
             <WelcomeSection />
             <BrandPositioning />
             <StrategyPillars />
+            <ProductShowcase />
             <ContentIdeas />
             <VideoLibrary />
             <InteractiveChecklist />

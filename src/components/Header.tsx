@@ -57,7 +57,7 @@ export function Header() {
             type="button"
             onClick={() => go("inicio")}
             className="shrink-0 rounded-md"
-            aria-label="Olway Creator Hub — voltar ao início"
+            aria-label="Manual OLWAY TikTok Shop — voltar ao início"
             title={`Treinamento ${pct}% percorrido`}
           >
             {/* o pilar dá uma volta a cada nova etapa */}

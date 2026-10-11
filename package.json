@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "build:html": "tsc -b && vite build --config vite.single.config.ts && python3 scripts/inline-assets.py",
-    "resolve:videos": "node scripts/resolve-tiktok.mjs"
+    "resolve:videos": "node scripts/resolve-tiktok.mjs",
+    "fetch:products": "node scripts/fetch-products.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",

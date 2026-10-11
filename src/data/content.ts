@@ -1,5 +1,5 @@
 /**
- * CONTEÚDO DO MANUAL OLWAY CREATOR HUB
+ * CONTEÚDO DO MANUAL OLWAY TIKTOK SHOP
  * Todos os textos editáveis da página ficam aqui, separados dos componentes visuais.
  */
 
@@ -17,22 +17,23 @@ export const sections = [
   { id: "time", label: "O Time", short: "01" },
   { id: "dna", label: "DNA Olway", short: "02" },
   { id: "pilares", label: "Estratégia", short: "03" },
-  { id: "ideias", label: "Ideias", short: "04" },
-  { id: "referencias", label: "Referências", short: "05" },
-  { id: "checklist", label: "Checklist", short: "06" },
-  { id: "executar", label: "Executar", short: "07" },
+  { id: "produtos", label: "Top 5", short: "04" },
+  { id: "ideias", label: "Ideias", short: "05" },
+  { id: "referencias", label: "Referências", short: "06" },
+  { id: "checklist", label: "Checklist", short: "07" },
+  { id: "executar", label: "Executar", short: "08" },
 ] as const;
 
 export type SectionId = (typeof sections)[number]["id"];
 
 export const hero = {
-  tag: "Creator Hub",
-  subtitle: "Manual Definitivo do Criador — TikTok Shop",
+  tag: "Manual TikTok Shop",
+  subtitle: "Manual OLWAY TikTok Shop — guia oficial do criador",
   headline: ["SEU CONTEÚDO.", "SEU SHAPE.", "SEUS RESULTADOS."],
   text: "Bem-vindo ao universo de criadores Olway. Aprenda a transformar sua rotina fitness em conteúdo de valor, conectar sua audiência aos nossos produtos e gerar comissões através do TikTok Shop.",
   primaryCta: "Começar treinamento",
   secondaryCta: "Ver referências",
-  imageAlt: "Time de criadores Olway reunido em um salão medieval, vestindo moletons e conjuntos da marca",
+  imageAlt: "Embalagens pretas da Olway com o símbolo do pilar e a frase Excelência em cada fio, propósito em cada estampa",
 };
 
 export const welcome = {
@@ -238,13 +239,10 @@ export const checklist = {
 };
 
 export const finalCta = {
-  headline: ["VOCÊ TEM O SHAPE.", "VOCÊ TEM O CONTEÚDO.", "AGORA É HORA DE EXECUTAR."],
-  text: "Transforme sua rotina em conteúdo autêntico. Valorize cada peça, mantenha a consistência e facilite a jornada de compra da sua audiência.",
-  primary: "Acessar TikTok Shop",
-  secondary: "Rever referências",
+  headline: "AGORA É HORA DE EXECUTAR!",
 };
 
 export const footer = {
-  brand: "OLWAY — CREATOR HUB",
+  brand: "OLWAY — MANUAL TIKTOK SHOP",
   tagline: "Performance, estética e autenticidade em cada conteúdo.",
 };

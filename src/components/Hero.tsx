@@ -18,31 +18,41 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate flex min-h-[100svh] items-end overflow-hidden pb-14 pt-[calc(var(--header-h)+24px)] lg:items-center lg:pb-20"
     >
-      {/* Foto oficial do time — preto e branco, com zoom lento */}
-      <motion.div style={{ y: imgY }} className="absolute inset-0 -z-20">
-        <motion.picture
-          className="block h-full w-full"
-          initial={{ scale: 1.18 }}
-          animate={{ scale: 1.04 }}
-          transition={{ duration: 9, ease: "easeOut" }}
-        >
-          <source media="(max-width: 900px)" srcSet="/brand/team-900.webp" type="image/webp" />
-          <img
-            src="/brand/team-1600.webp"
-            alt={hero.imageAlt}
-            width={1600}
-            height={968}
-            fetchPriority="high"
-            className="h-full w-full object-cover object-[50%_60%] contrast-[1.15] grayscale"
+      {/* Foto oficial das embalagens — fundo no celular, painel à direita no desktop */}
+      <motion.div
+        style={{ y: imgY }}
+        className="absolute inset-0 -z-20 lg:left-auto lg:right-[max(2rem,calc((100vw-1200px)/2+2rem))] lg:top-[calc(var(--header-h)+32px)] lg:bottom-auto lg:z-0 lg:h-[min(680px,80vh)] lg:w-[min(440px,34vw)]"
+      >
+        <div className="relative h-full w-full overflow-hidden lg:rounded-3xl lg:border lg:border-bone/15 lg:shadow-[0_30px_80px_-30px_rgba(255,255,255,0.18)]">
+          <motion.picture
+            className="block h-full w-full"
+            initial={{ scale: 1.18 }}
+            animate={{ scale: 1.03 }}
+            transition={{ duration: 9, ease: "easeOut" }}
+          >
+            <source media="(max-width: 640px)" srcSet="/brand/hero-packaging-600.webp" type="image/webp" />
+            <img
+              src="/brand/hero-packaging.webp"
+              alt={hero.imageAlt}
+              width={794}
+              height={1232}
+              fetchPriority="high"
+              className="h-full w-full object-cover object-center contrast-[1.1] grayscale"
+            />
+          </motion.picture>
+          {/* reflexo de vidro que passa sobre a foto */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.18)_50%,transparent_65%)] bg-[length:250%_100%] [animation:chrome-sweep_7s_linear_infinite] lg:block"
           />
-        </motion.picture>
+        </div>
       </motion.div>
       {/* overlays para legibilidade + vinheta */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/80 to-ink/30 lg:bg-gradient-to-r lg:from-ink lg:via-ink/80 lg:to-ink/10"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/80 to-ink/30 lg:hidden"
       />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-ink to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-ink to-transparent lg:hidden" />
       <div aria-hidden className="grain pointer-events-none absolute inset-0 -z-10 opacity-[0.08] mix-blend-overlay" />
 
       <div className="container-page">

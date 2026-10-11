@@ -1,6 +1,6 @@
-# OLWAY CREATOR HUB
+# MANUAL OLWAY TIKTOK SHOP
 
-Manual Definitivo do Criador — TikTok Shop. Landing page educativa (sem fins de venda) para novos criadores e afiliados Olway.
+Guia oficial do criador Olway para o TikTok Shop. Landing page educativa (sem fins de venda) para novos criadores e afiliados Olway.
 
 **Stack:** React 18 + TypeScript + Vite · Tailwind CSS · Framer Motion · Lucide React
 
@@ -46,6 +46,14 @@ Abertura de 3 s com o escudo Olway e "Excelência em cada fio, propósito em cad
   npm run build:html
   ```
   Os que falharem aparecem listados; abra-os no navegador e cole a URL completa em `canonicalUrl` em `src/data/videos.ts`.
+
+### Top 5 produtos
+Links em `src/data/products.ts`. Para baixar a foto oficial de cada produto (og:image da página da loja):
+```bash
+npm run fetch:products   # salva em public/products/ e gera src/data/products.resolved.json
+npm run build:html
+```
+Sem foto, o card mostra só o nome e o botão "Ver detalhes" — nenhuma imagem é inventada.
 
 ### HTML único
 `npm run build:html` gera `olway-creator-hub.html` com tudo embutido.

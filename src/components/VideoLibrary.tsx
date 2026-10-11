@@ -192,7 +192,7 @@ export function VideoLibrary() {
     <section id="referencias" aria-labelledby="referencias-title" className="relative py-20 sm:py-28">
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-72 max-w-3xl rounded-full bg-white/[0.05] blur-[120px]" />
       <div className="container-page relative">
-        <SectionHeading id="referencias-title" index="05" label="Biblioteca de vídeos Enedino" title="ASSISTA. ANALISE. CRIE SUA VERSÃO.">
+        <SectionHeading id="referencias-title" index="06" label="Biblioteca de vídeos Enedino" title="ASSISTA. ANALISE. CRIE SUA VERSÃO.">
           <p>
             Essas são referências selecionadas para orientar sua produção. Observe o ritmo, os enquadramentos, a postura, a
             naturalidade e a apresentação dos produtos.

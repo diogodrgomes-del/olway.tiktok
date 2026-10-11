@@ -93,7 +93,7 @@ export function ContentIdeas() {
   return (
     <section id="ideias" aria-labelledby="ideias-title" className="relative border-t border-bone/5 bg-coal/40 py-20 sm:py-28">
       <div className="container-page">
-        <SectionHeading id="ideias-title" index="04" label="Ideias de conteúdo" title={ideas.title}>
+        <SectionHeading id="ideias-title" index="05" label="Ideias de conteúdo" title={ideas.title}>
           <p>Seis formatos prontos para gravar. Copie o gancho e a execução e adapte à sua rotina.</p>
         </SectionHeading>
 

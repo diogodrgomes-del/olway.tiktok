@@ -48,7 +48,7 @@ export function InteractiveChecklist() {
       <div className="container-page">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+32px)] lg:self-start">
-            <SectionHeading id="checklist-title" index="06" label="Checklist interativo" title={checklist.title}>
+            <SectionHeading id="checklist-title" index="07" label="Checklist interativo" title={checklist.title}>
               <p>Marque cada item antes de publicar. Seu progresso fica salvo neste navegador.</p>
             </SectionHeading>
 
