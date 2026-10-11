@@ -15,6 +15,7 @@ export default {
         "chrome-soft": "rgb(var(--c-chrome-soft) / <alpha-value>)",
         "chrome-deep": "rgb(var(--c-chrome-deep) / <alpha-value>)",
         danger: "rgb(var(--c-danger) / <alpha-value>)",
+        moss: "rgb(var(--c-moss) / <alpha-value>)",
       },
       fontFamily: {
         display: ["'Space Grotesk'", "system-ui", "sans-serif"],

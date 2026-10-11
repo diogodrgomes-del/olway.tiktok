@@ -5,14 +5,14 @@ import { NextSection, Reveal, SectionHeading } from "./ui";
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   return (
-    <Reveal as="li" delay={index * 0.07} className="w-[72%] shrink-0 snap-center sm:w-auto">
+    <li className="w-[72%] shrink-0 snap-center sm:w-auto" data-index={index}>
       <motion.a
         href={product.url}
         target="_blank"
         rel="noopener noreferrer"
         whileHover={{ y: -6 }}
         whileTap={{ scale: 0.98 }}
-        className="card group flex h-full flex-col overflow-hidden transition-colors hover:border-bone/40"
+        className="card group relative flex h-full flex-col overflow-hidden transition-colors hover:border-bone/40"
       >
         <div className="relative aspect-[4/5] overflow-hidden bg-graphite">
           <img
@@ -45,7 +45,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           <span className="sr-only">(abre a loja Olway em nova aba)</span>
         </div>
       </motion.a>
-    </Reveal>
+    </li>
   );
 }
 
@@ -60,11 +60,14 @@ export function ProductShowcase() {
         <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-mute sm:hidden" aria-hidden>
           Deslize para ver os 5 →
         </p>
-        <ol className="-mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-5">
+        {/* wrapper recorta o carrossel para não criar rolagem lateral na página */}
+        <Reveal className="-mx-4 overflow-hidden sm:mx-0 sm:overflow-visible">
+        <ol className="mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] sm:mt-12 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-5">
           {products.map((p, i) => (
             <ProductCard key={p.slug} product={p} index={i} />
           ))}
         </ol>
+        </Reveal>
 
         <NextSection current="produtos" />
       </div>

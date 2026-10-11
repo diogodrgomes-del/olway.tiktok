@@ -57,7 +57,7 @@ function PurchaseFlow() {
 }
 
 export function StrategyPillars() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null); // todos fechados ao abrir a página
 
   return (
     <section id="pilares" aria-labelledby="pilares-title" className="relative py-20 sm:py-28">

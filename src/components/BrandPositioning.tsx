@@ -18,16 +18,16 @@ function CompareList({ side, active, onSelect }: { side: Side; active: boolean; 
       animate={{ opacity: active ? 1 : 0.45, scale: active ? 1 : 0.985 }}
       transition={{ duration: 0.35, ease }}
       className={`h-full cursor-pointer rounded-2xl border p-6 sm:p-7 ${
-        isPrefer ? "border-white bg-bone text-ink shadow-[0_20px_60px_-25px_rgba(255,255,255,0.35)]" : "card text-bone"
+        isPrefer ? "border-moss bg-[linear-gradient(180deg,rgb(var(--c-moss)/0.35),rgb(var(--c-moss)/0.12))] text-bone shadow-[0_20px_60px_-25px_rgb(var(--c-moss)/0.7)]" : "border-danger bg-[linear-gradient(180deg,rgb(var(--c-danger)/0.4),rgb(var(--c-danger)/0.12))] text-bone shadow-[0_20px_60px_-25px_rgb(var(--c-danger)/0.7)]"
       }`}
     >
       <p
         className={`inline-flex items-center gap-2 rounded-full px-3 py-1 font-display text-xs font-bold tracking-[0.2em] ${
-          isPrefer ? "bg-ink text-bone" : "bg-bone/10 text-mute"
+          isPrefer ? "bg-moss text-bone" : "bg-danger text-bone"
         }`}
       >
         <Icon className="h-3.5 w-3.5" aria-hidden />
-        {isPrefer ? "PREFIRA" : "EVITE"}
+        {isPrefer ? "COMO FALAR" : "COMO NÃO FALAR"}
       </p>
       <ul className="mt-5 space-y-3">
         {items.map((t, i) => (
@@ -40,12 +40,12 @@ function CompareList({ side, active, onSelect }: { side: Side; active: boolean; 
           >
             <span
               className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
-                isPrefer ? "bg-ink text-bone" : "bg-bone/10 text-mute"
+                isPrefer ? "bg-moss text-bone" : "bg-danger text-bone"
               }`}
             >
               <Icon className="h-3 w-3" aria-hidden />
             </span>
-            <span className={!isPrefer ? "text-mute line-through decoration-bone/30" : "font-medium"}>{t}</span>
+            <span className={!isPrefer ? "text-bone/75 line-through decoration-danger decoration-2" : "font-medium"}>{t}</span>
           </motion.li>
         ))}
       </ul>
@@ -83,7 +83,7 @@ export function BrandPositioning() {
         {/* Comparação interativa */}
         <div className="mt-16">
           <Reveal>
-            <h3 className="font-display text-2xl font-bold uppercase sm:text-3xl">Como falar da Olway</h3>
+            <h3 className="font-display text-2xl font-bold uppercase sm:text-3xl">Como falar (e como não falar) da Olway</h3>
           </Reveal>
           <Reveal delay={0.05}>
             <div
@@ -99,18 +99,18 @@ export function BrandPositioning() {
                   aria-selected={side === s}
                   aria-controls={`painel-${s}`}
                   onClick={() => setSide(s)}
-                  className={`relative min-h-[44px] rounded-full px-6 font-display text-sm font-bold tracking-[0.14em] transition-colors ${
-                    side === s ? (s === "prefer" ? "text-ink" : "text-bone") : "text-mute"
+                  className={`relative min-h-[44px] rounded-full px-3.5 font-display text-xs font-bold tracking-[0.08em] sm:px-6 sm:text-sm sm:tracking-[0.14em] transition-colors ${
+                    side === s ? "text-bone" : "text-mute"
                   }`}
                 >
                   {side === s && (
                     <motion.span
                       layoutId="compare-pill"
-                      className={`absolute inset-0 rounded-full ${s === "prefer" ? "bg-bone" : "bg-graphite ring-1 ring-bone/20"}`}
+                      className={`absolute inset-0 rounded-full ${s === "prefer" ? "bg-moss" : "bg-danger"}`}
                       transition={{ type: "spring", stiffness: 400, damping: 34 }}
                     />
                   )}
-                  <span className="relative">{s === "prefer" ? "PREFIRA" : "EVITE"}</span>
+                  <span className="relative">{s === "prefer" ? "✓ COMO FALAR" : "✕ COMO NÃO FALAR"}</span>
                 </button>
               ))}
             </div>

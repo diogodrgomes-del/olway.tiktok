@@ -28,7 +28,6 @@ export type SectionId = (typeof sections)[number]["id"];
 
 export const hero = {
   headline: ["MANUAL", "OLWAY", "TIKTOK SHOP"],
-  slogan: "Seu conteúdo. Seu shape. Seus resultados.",
   text: "Bem-vindo ao universo de criadores Olway. Aprenda a transformar sua rotina fitness em conteúdo de valor, conectar sua audiência aos nossos produtos e gerar comissões através do TikTok Shop.",
   primaryCta: "Começar treinamento",
   secondaryCta: "Ver referências",
@@ -239,6 +238,12 @@ export const checklist = {
 
 export const finalCta = {
   headline: "AGORA É HORA DE EXECUTAR!",
+};
+
+export const social = {
+  instagram: "https://www.instagram.com/olway.clothing?utm_source=ig_web_button_share_sheet&mdxt=ZDNlZDc0MzIxNw==",
+  tiktok: "https://www.tiktok.com/@olway.clothing",
+  handle: "@olway.clothing",
 };
 
 export const footer = {

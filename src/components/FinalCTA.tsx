@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { finalCta, footer } from "../data/content";
+import { Instagram } from "lucide-react";
+import { finalCta, footer, social } from "../data/content";
 import { OlwayPillar, OlwayWordmark, SpinningPillar } from "./brand/Logo";
 import { ease } from "./ui";
 
@@ -44,10 +45,23 @@ export function FinalCTA() {
   );
 }
 
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.5a7.9 7.9 0 0 0 4.6 1.5V6.7a4.6 4.6 0 0 1-4.6-4.7Z" />
+    </svg>
+  );
+}
+
+const socialLinks = [
+  { label: "Instagram", href: social.instagram, Icon: Instagram },
+  { label: "TikTok", href: social.tiktok, Icon: TikTokIcon },
+];
+
 export function Footer() {
   return (
-    <footer className="border-t border-bone/10 py-10">
-      <div className="container-page flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
+    <footer className="border-t border-bone/10 py-12">
+      <div className="container-page flex flex-col items-center gap-8 text-center md:flex-row md:justify-between md:text-left">
         <div className="flex items-center gap-3">
           <OlwayPillar className="h-8 w-auto" title="" />
           <div>
@@ -55,6 +69,30 @@ export function Footer() {
             <p className="mt-1 font-display text-[11px] tracking-[0.24em] text-chrome">{footer.brand.replace("OLWAY — ", "")}</p>
           </div>
         </div>
+
+        <div className="flex flex-col items-center gap-3 md:items-end">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mute">Siga a Olway · {social.handle}</p>
+          <ul className="flex gap-3">
+            {socialLinks.map(({ label, href, Icon }) => (
+              <li key={label}>
+                <motion.a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl border border-bone/20 px-5 font-display text-sm font-bold uppercase tracking-[0.1em] transition-colors hover:border-bone hover:bg-bone hover:text-ink"
+                >
+                  <Icon className="h-5 w-5" />
+                  {label}
+                  <span className="sr-only">(abre em nova aba)</span>
+                </motion.a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="container-page mt-10 flex flex-col items-center gap-2 border-t border-bone/10 pt-6 text-center sm:flex-row sm:justify-between">
         <p className="text-sm text-mute">{footer.tagline}</p>
         <p className="text-xs text-bone/35">© {new Date().getFullYear()} {footer.brand}</p>
       </div>

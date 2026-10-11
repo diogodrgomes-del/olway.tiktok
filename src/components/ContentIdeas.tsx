@@ -36,7 +36,8 @@ function IdeaCard({ idea, index }: { idea: Idea; index: number }) {
   };
 
   return (
-    <Reveal as="li" delay={(index % 3) * 0.07} className="h-full w-[86%] shrink-0 snap-center sm:w-auto">
+    // sem animação por card: no carrossel do celular os cards fora da tela ficariam invisíveis
+    <li className="h-full w-[86%] shrink-0 snap-center sm:w-auto" data-index={index}>
       <motion.article
         whileHover={{ y: -4 }}
         className="card group relative flex h-full flex-col p-6 transition-colors hover:border-chrome/35 sm:p-7"
@@ -85,7 +86,7 @@ function IdeaCard({ idea, index }: { idea: Idea; index: number }) {
           {state === "ok" ? `Ideia ${idea.title} copiada para a área de transferência.` : ""}
         </span>
       </motion.article>
-    </Reveal>
+    </li>
   );
 }
 
@@ -100,11 +101,14 @@ export function ContentIdeas() {
         <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-mute sm:hidden" aria-hidden>
           Deslize para ver as 6 ideias →
         </p>
-        <ul className="-mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+        {/* wrapper recorta o carrossel para não criar rolagem lateral na página */}
+        <Reveal className="-mx-4 overflow-hidden sm:mx-0 sm:overflow-visible">
+        <ul className="mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {ideas.items.map((idea, i) => (
             <IdeaCard key={idea.n} idea={idea} index={i} />
           ))}
         </ul>
+        </Reveal>
 
         <NextSection current="ideias" />
       </div>

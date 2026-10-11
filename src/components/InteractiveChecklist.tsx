@@ -28,6 +28,57 @@ function Burst() {
   );
 }
 
+function ProgressRing({ done, total, small = false }: { done: number; total: number; small?: boolean }) {
+  const complete = done === total;
+  const pct = Math.round((done / total) * 100);
+  return (
+    <div className={`relative shrink-0 ${small ? "h-[60px] w-[60px]" : "h-28 w-28"}`}>
+      <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgb(var(--c-bone) / 0.1)" strokeWidth={small ? 11 : 8} />
+        <motion.circle
+          cx="60"
+          cy="60"
+          r="52"
+          fill="none"
+          stroke="rgb(var(--c-chrome))"
+          strokeWidth={small ? 11 : 8}
+          strokeLinecap="round"
+          strokeDasharray={RING}
+          initial={false}
+          animate={{ strokeDashoffset: RING * (1 - done / total) }}
+          transition={{ duration: 0.6, ease }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          {complete ? (
+            <motion.span
+              key="ok"
+              initial={{ scale: 0, rotate: -40 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 16 }}
+            >
+              <OlwayPillar className={small ? "h-5 w-auto" : "h-10 w-auto"} intro title="" />
+            </motion.span>
+          ) : (
+            <motion.span
+              key={pct}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              className={`font-display font-bold ${small ? "text-sm" : "text-2xl"}`}
+            >
+              {pct}%
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
+      {complete && !small && <Burst />}
+    </div>
+  );
+}
+
 export function InteractiveChecklist() {
   const [checked, setChecked] = useLocalStorage<boolean[]>(
     checklist.storageKey,
@@ -46,52 +97,18 @@ export function InteractiveChecklist() {
   return (
     <section id="checklist" aria-labelledby="checklist-title" className="relative border-t border-bone/5 bg-coal/40 py-20 sm:py-28">
       <div className="container-page">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
-          <div className="lg:sticky lg:top-[calc(var(--header-h)+32px)] lg:self-start">
-            <SectionHeading id="checklist-title" index="07" label="Checklist interativo" title={checklist.title}>
-              <p>Marque cada item antes de publicar. Seu progresso fica salvo neste navegador.</p>
-            </SectionHeading>
+        <SectionHeading id="checklist-title" index="07" label="Checklist interativo" title={checklist.title}>
+          <p>Marque cada item antes de publicar. Seu progresso fica salvo neste navegador.</p>
+        </SectionHeading>
+
+        <div className="mt-8 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,400px)_1fr] lg:gap-10">
+          <div className="hidden lg:block">
+            <div className="sticky top-[calc(var(--header-h)+24px)]">
 
             {/* Indicador de progresso */}
-            <Reveal className="mt-8">
+              <Reveal>
               <div className="card relative flex items-center gap-6 overflow-hidden p-5 sm:p-6">
-                <div className="relative h-28 w-28 shrink-0">
-                  <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
-                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgb(var(--c-bone) / 0.08)" strokeWidth="8" />
-                    <motion.circle
-                      cx="60"
-                      cy="60"
-                      r="52"
-                      fill="none"
-                      stroke="rgb(var(--c-chrome))"
-                      strokeWidth="8"
-                      strokeLinecap="round"
-                      strokeDasharray={RING}
-                      animate={{ strokeDashoffset: RING * (1 - done / total) }}
-                      transition={{ duration: 0.6, ease }}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <AnimatePresence mode="wait">
-                      {complete ? (
-                        <motion.span
-                          key="ok"
-                          initial={{ scale: 0, rotate: -40 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          exit={{ scale: 0 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 16 }}
-                        >
-                          <OlwayPillar className="h-10 w-auto" intro title="" />
-                        </motion.span>
-                      ) : (
-                        <motion.span key="pct" className="font-display text-2xl font-bold" exit={{ opacity: 0 }}>
-                          {pct}%
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  {complete && <Burst />}
-                </div>
+                <ProgressRing done={done} total={total} />
                 <div className="min-w-0 flex-1">
                   <p className="font-display text-xs font-semibold tracking-[0.2em] text-mute" aria-live="polite">
                     {done} DE {total} ITENS · {pct}%
@@ -121,18 +138,46 @@ export function InteractiveChecklist() {
                   </button>
                 </div>
               </div>
-            </Reveal>
+              </Reveal>
+            </div>
           </div>
 
+          {/* celular: progresso fixo à esquerda + itens à direita, tudo visível ao mesmo tempo */}
+          <div className="grid grid-cols-[76px_1fr] gap-3 lg:block">
+            <div className="lg:hidden">
+              <div className="card sticky top-[calc(var(--header-h)+14px)] flex flex-col items-center gap-2 px-1.5 py-3">
+                <ProgressRing done={done} total={total} small />
+                <p className="font-display text-[11px] font-bold tracking-[0.08em]" aria-live="polite">
+                  {done}/{total}
+                </p>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-bone/10" aria-hidden>
+                  <motion.div
+                    className="h-full rounded-full bg-bone"
+                    initial={false}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ duration: 0.6, ease }}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={reset}
+                  disabled={done === 0}
+                  aria-label="Reiniciar checklist"
+                  className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-bone/15 text-mute transition-colors hover:text-bone disabled:opacity-30"
+                >
+                  <RotateCcw className="h-4 w-4" aria-hidden />
+                </button>
+              </div>
+            </div>
           <div>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 lg:space-y-3">
               {checklist.items.map((item, i) => {
                 const on = state[i];
                 return (
                   <Reveal as="li" key={item} delay={i * 0.04}>
                     <label
-                      className={`group flex min-h-[64px] cursor-pointer items-start gap-4 rounded-2xl border p-4 transition-colors sm:p-5 ${
-                        on ? "border-chrome/50 bg-chrome/[0.08]" : "border-bone/10 bg-coal hover:border-bone/25"
+                      className={`group flex min-h-[56px] cursor-pointer items-start gap-3 rounded-2xl border p-3 transition-colors sm:gap-4 sm:p-5 ${
+                        on ? "border-moss bg-moss/20" : "border-bone/10 bg-coal hover:border-bone/25"
                       }`}
                     >
                       <input type="checkbox" className="peer sr-only" checked={on} onChange={() => toggle(i)} />
@@ -141,7 +186,7 @@ export function InteractiveChecklist() {
                         animate={{ scale: on ? [1, 1.2, 1] : 1 }}
                         transition={{ duration: 0.3 }}
                         className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-chrome peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-ink ${
-                          on ? "border-chrome bg-chrome text-ink" : "border-bone/30 text-transparent"
+                          on ? "border-moss bg-moss text-bone" : "border-bone/30 text-transparent"
                         }`}
                       >
                         <motion.svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={3.5}>
@@ -155,7 +200,7 @@ export function InteractiveChecklist() {
                           />
                         </motion.svg>
                       </motion.span>
-                      <span className={`text-[15px] leading-snug transition-colors sm:text-base ${on ? "text-bone" : "text-bone/80"}`}>
+                      <span className={`text-[14px] leading-snug transition-colors sm:text-base ${on ? "text-bone" : "text-bone/80"}`}>
                         <span className="mr-2 font-display text-xs font-semibold text-chrome">{String(i + 1).padStart(2, "0")}</span>
                         {item}
                       </span>
@@ -187,6 +232,7 @@ export function InteractiveChecklist() {
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
           </div>
         </div>
 

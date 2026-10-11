@@ -16,7 +16,8 @@
   --c-chrome: 232 232 234;  /* #E8E8EA  destaque (branco cromado) */
   --c-chrome-soft: 255 255 255; /* #FFFFFF  brilho */
   --c-chrome-deep: 110 110 116; /* #6E6E74  prata escuro */
-  --c-danger: 130 130 136;  /* #828288  "evite" (cinza) */
+  --c-danger: 122 28 28;    /* #7A1C1C  vermelho escuro — "como NÃO falar" */
+  --c-moss: 86 107 47;      /* #566B2F  verde musgo — "como falar" */
 
   --header-h: 64px;
   color-scheme: dark;

@@ -73,14 +73,6 @@ export function Hero() {
             ))}
           </h1>
 
-          <motion.p
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease, delay: 1.05 }}
-            className="mt-5 border-l-2 border-bone pl-4 font-display text-lg font-bold uppercase tracking-[0.04em] text-bone sm:text-2xl"
-          >
-            {hero.slogan}
-          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
